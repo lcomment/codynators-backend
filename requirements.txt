@@ -1,6 +1,1 @@
-pytest
-flake8
-pandas
-flask
-nltk
-pathlib
+flask==1.1.2
