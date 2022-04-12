@@ -8,7 +8,7 @@ name: Upload Python Package
 on:
   push:
     branches:
-      - master
+      - main
 
 # 이벤트가 발생시 해당 작업들 실행
 jobs:
