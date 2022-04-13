@@ -1,5 +1,5 @@
 version: 0.0
-os: linux
+os: push
 files:
   - source: /
     destination: /home/ec2-user/app/step2/zip/
