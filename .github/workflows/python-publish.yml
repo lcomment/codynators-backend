@@ -49,26 +49,29 @@ jobs:
       - name: zip artifacts
         run: zip -r ./artifacts/build.zip ./app/* appspec.yml
 
-      # AWS S3에 압축파일을 전달하는 설정 및 명령어
-      - name: deploy to s3
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{secrets.AWS_PRODUCTION_BUCKET_NAME}}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
-          AWS_REGION: ap-northeast-2
-          SOURCE_DIR: "./artifacts"
-          DEST_DIR: "backend/"
+      - name: configure aws
+        uses: aws-actions/configure-aws-credentials@v1
+        with: 
+          aws-access-key-id: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      
+      # S3에 업로드
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./artifacts/build.zip s3://codynators-backend/backend/build.zip
+
+      # # AWS S3에 압축파일을 전달하는 설정 및 명령어
+      # - name: deploy to s3
+      #   uses: jakejarvis/s3-sync-action@master
+      #   with:
+      #     args: --acl public-read --follow-symlinks --delete
+      #   env:
+      #     AWS_S3_BUCKET: ${{secrets.AWS_PRODUCTION_BUCKET_NAME}}
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: ap-northeast-2
+      #     SOURCE_DIR: "./artifacts"
+      #     DEST_DIR: "backend/"
           
-    provider: codedeploy
-      access_key_id: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
-      secret_access_key: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
-      bucket: ${{secrets.AWS_PRODUCTION_BUCKET_NAME}}
-      key: build.zip
-      bundle_type: zip
-      application: codynators-backend
-      deployment_group: codynators-backend-flask
-      region: ap-northeast-2
-      wait-until-deployed: true
+      - name: code deploy
+        run: aws deploy create-deployment --application-name codynators-backend --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name codynators-backend-flask --s3-location bucket=codynators-backend,bundleType=zip,key=build.zip
