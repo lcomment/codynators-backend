@@ -61,7 +61,8 @@ jobs:
           AWS_REGION: ap-northeast-2
           SOURCE_DIR: "./artifacts"
           DEST_DIR: "backend/"
-    - provider: codedeploy
+          
+    provider: codedeploy
       access_key_id: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
       secret_access_key: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
       bucket: ${{secrets.AWS_PRODUCTION_BUCKET_NAME}}
