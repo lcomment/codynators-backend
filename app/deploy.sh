@@ -8,4 +8,4 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 docker build -t codynators-backend .
-docker run  -p 5000:443 --name codynators-backend codynators-backend
+docker run  -p 443:5000 --name codynators-backend codynators-backend
