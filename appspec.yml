@@ -4,3 +4,4 @@ files:
   - source: /
     destination: /home/ec2-user/app/step2/flask/
     overwrite: yes
+    
