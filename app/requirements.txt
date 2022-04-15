@@ -1,7 +1,7 @@
 # Base packages:
 # Flask
 # gunicorn
-click==6.7
+click==8.0
 Flask==2.1.1
 gunicorn==19.7.1
 itsdangerous==0.24
