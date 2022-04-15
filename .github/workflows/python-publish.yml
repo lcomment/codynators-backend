@@ -74,4 +74,4 @@ jobs:
       #     DEST_DIR: "backend/"
           
       - name: code deploy
-        run: aws deploy create-deployment --application-name codynators-backend --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name codynators-backend-flask --s3-location bucket=codynators-backend,bundleType=zip,key=build.zip
+        run: aws deploy create-deployment --application-name codynators-backend --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name codynators-backend-flask --s3-location bucket=codynators-backend,bundleType=zip,key=backend/build.zip
