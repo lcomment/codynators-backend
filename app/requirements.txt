@@ -8,3 +8,6 @@ itsdangerous==2.0
 Jinja2==3.0
 MarkupSafe==2.0
 Werkzeug==2.0
+jwt==0.1.3
+pycryptodome==3.4.3
+pyrebase==3.0.27
