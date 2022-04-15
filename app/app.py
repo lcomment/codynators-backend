@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, request, jsonify
 from DB_handler import DBModule
 
 app = Flask(__name__)
@@ -11,11 +11,22 @@ filename = "샘플" + ".txt"
 
 @app.route("/")
 def index():
-    path_on_cloud = f"{username}/{filename}"
-    path_local = "sample.txt"
-    storage.child(path_on_cloud).put(path_local)
     return "악보 데이터 변환용 서버"
 
+# json 형식
+# {
+#     "username": "string",
+#     "filename": "string",
+# }
+
+@app.route("/post", methods=['POST'])
+def post():
+    params = request.get_json()
+    print(params['username'])
+    path_on_cloud = f"{params['username']}/{params['filename']}"
+    path_local = "sample.txt" # 샘플
+    storage.child(path_on_cloud).put(path_local)
+    redirect("/")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
