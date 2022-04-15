@@ -4,4 +4,9 @@ files:
   - source: /
     destination: /home/ec2-user/app/step2/flask/
     overwrite: yes
-    
+hooks:
+  ApplicationStart:
+# location은 프로젝트 기준으로 위치를 작성해준다!
+    - location: /deploy.sh
+      timeout: 100 
+      runas: ec2-user
