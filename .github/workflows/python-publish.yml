@@ -18,6 +18,7 @@ jobs:
     name: test and deploy flask app to S3 bucket
     # 운영체제 설정 : 우분트 -> 빌드나 테스트, 압축등을 실행할 os 선택
     runs-on: ubuntu-latest
+    environment: Production
 
     # 위 작업의 세부 단계 설정
     steps:
