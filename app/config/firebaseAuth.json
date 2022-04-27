@@ -1,10 +1,9 @@
 {
-    "apiKey": "AIzaSyBPsRp4E1suEUPzuQg6AsaF3cB3Ik1f-QE",
-    "authDomain": "cad-5e364.firebaseapp.com",
-    "databaseURL": "https://cad-5e364-default-rtdb.firebaseio.com",
-    "projectId": "cad-5e364",
-    "storageBucket": "cad-5e364.appspot.com",
-    "messagingSenderId": "361396213666",
-    "appId": "1:361396213666:web:bad30c3a4e6ab44a6204fb",
-    "measurementId": "G-BN1GHX8DEE"
+    "apiKey": "AIzaSyAIXeijxdZLls6JD9iyXd3s2cs4geUefLg",
+    "authDomain": "python-firebase-practice-1e53b.firebaseapp.com",
+    "databaseURL": "https://python-firebase-practice-1e53b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "projectId": "python-firebase-practice-1e53b",
+    "storageBucket": "python-firebase-practice-1e53b.appspot.com",
+    "messagingSenderId": "1022376058486",
+    "appId": "1:1022376058486:web:14be395dfe65d2202f0957"
 }
