@@ -25,7 +25,8 @@ def post():
     params = request.get_json()
     print(params['username'])
     path_on_cloud = f"{params['username']}/{params['filename']}"
-    path_local = f"{params['filename']}" + ".csv"  # 샘플
+    #path_local = f"{params['filename']}" + ".csv"  # 샘플
+    path_local = "여행을떠나요.csv"  # 샘플
     storage.child(path_on_cloud).put(path_local)
     return url_for('index')
 
