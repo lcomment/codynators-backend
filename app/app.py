@@ -23,7 +23,7 @@ def index():
 @app.route("/", methods=['POST'])
 def post():
     params = request.get_json()
-    #print(params['username'])
+    print(params['username'])
     path_on_cloud = f"{params['username']}/{params['filename']}"
     #path_local = f"{params['filename']}" + ".csv"  # 샘플
     path_local = f"{params['filename']}" + ".csv"  # 샘플
