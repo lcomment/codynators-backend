@@ -3,6 +3,7 @@ import numpy as np
 import functions as fs
 import recognition_modules as rs
 
+
 def recognition(image, staves, objects):
     key = 0
     time_signature = False
@@ -31,7 +32,6 @@ def recognition(image, staves, objects):
         cv2.rectangle(image, (x, y, w, h), (255, 0, 0), 1)
         fs.put_text(image, index, (x, y - fs.weighted(30)))
     return image, key, beats, pitches
-
 
 
 # 3/28 -> stems 인식 문제

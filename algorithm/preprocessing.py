@@ -3,14 +3,16 @@ import cv2
 import numpy as np
 import functions as fs
 
+
 # 악보 이진화 및 가사 제거
-def rmNoise(image):
+def remove_noise(image):
     image = fs.threshold(image)  # 이미지 이진화
     height, width = image.shape
 
     # 피아노 악보와 드럼 악보를 이어주는 선 삭제 (객체 분리를 위해)
     for row in range(height):
-        image[row][80] = 0
+        for col in range(75):
+            image[row][col] = 0
 
     mask = np.zeros(image.shape, np.uint8)  # 보표 영역만 추출하기 위해 마스크 생성
 
@@ -18,18 +20,15 @@ def rmNoise(image):
     # connectedComponentsWithStats(객체) : 객체 정보를 함께 반환하는 레이블링 함수
     cnt, labels, stats, centroids = cv2.connectedComponentsWithStats(image)  # 레이블링
 
-    count = 0
     for i in range(1, cnt):
         x, y, w, h, area = stats[i]
         if w > image.shape[1] * 0.5:  # 보표 영역에만
-            count += 1
-            # 드럼 악보만 마스킹
-            if (count % 2) == 0:
-                cv2.rectangle(mask, (x, y, w, h), (255, 0, 0), -1)  # 사각형 그리기
+            cv2.rectangle(mask, (x, y, w, h), (255, 0, 0), -1)  # 사각형 그리기
 
     masked_image = cv2.bitwise_and(image, mask)  # 보표 영역 추출
 
     return masked_image
+
 
 # 오선 제거
 def rmStaves(image):
@@ -55,6 +54,7 @@ def rmStaves(image):
                     image[row][col] = 0  # 오선을 지움
 
     return image, [x[0] for x in staves]
+
 
 # 악보 사이즈 정규화
 def musicsheetNormalization(image, staves, standard):

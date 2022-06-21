@@ -3,14 +3,15 @@ import cv2
 import numpy as np
 import functions as fs
 
-#위 아래 겹치는 음표 인덱스 재배치
+
+# 위 아래 겹치는 음표 인덱스 재배치
 def object_classification(objects):
     axis, cnt = 0, -1
     index = 1
     i = 0
-    while i < len(objects)-1:
-        line_0, (x_0, y_0, w_0, h_0, area_0) = objects[i][0], objects[i][1] # 현재 value
-        line_1, (x_1, y_1, w_1, h_1, area_1) = objects[i + 1][0], objects[i + 1][1] # 다음 value
+    while i < len(objects) - 1:
+        line_0, (x_0, y_0, w_0, h_0, area_0) = objects[i][0], objects[i][1]  # 현재 value
+        line_1, (x_1, y_1, w_1, h_1, area_1) = objects[i + 1][0], objects[i + 1][1]  # 다음 value
 
         if line_0 > cnt:
             axis = y_0
@@ -58,7 +59,6 @@ def object_classification(objects):
         else:
             objects[i].append(index)
             index += 1
-
         i += 1
 
     # 마지막 객체가 index가 안 들어갔을 경우 예외 처리
@@ -66,7 +66,6 @@ def object_classification(objects):
         objects[-1].append(index)
     # print('인덱스 재배열', objects)
     return objects
-
 
 
 def object_detection(image, staves):
@@ -88,13 +87,13 @@ def object_detection(image, staves):
 
     for i in range(1, cnt):
         (x, y, w, h, area) = stats[i]
-        if w >= fs.weighted(5) and h >= fs.weighted(5):  # 악보의 구성요소가 되기 위한 넓이, 높이 조건
+        if w >= fs.weighted(5) and h >= fs.weighted(5):  # 악보의 구성 요소가 되기 위한 넓이, 높이 조건
             center = fs.get_center(y, h)
             for line in range(lines):
-                #print(staves)
+                # print(staves)
                 area_top = staves[line * 5] - fs.weighted(150)  # 위치 조건 (상단)
                 area_bot = staves[(line + 1) * 5 - 1] + fs.weighted(150)  # 위치 조건 (하단)
-                #print("top: ", line, " pix: ", area_top, "      bot: ", line, " pix: ", area_bot, " center: ", center)
+                # print("top: ", line, " pix: ", area_top, "      bot: ", line, " pix: ", area_bot, " center: ", center)
                 aver = ((area_bot - center) + (center - area_top)) / 2
 
                 if area_top <= center <= area_bot:
@@ -111,11 +110,11 @@ def object_detection(image, staves):
                     if flag is False:
                         objects.append([line, (x, y, w, h, area), aver])  # 객체 리스트에 보표 번호와 객체의 정보(위치, 크기)를 추가
                     # 2. 있다면 aver 비교 (작은 값을 넣어준다)
-                    #print("line: ", line)
+                    # print("line: ", line)
             # fs.put_text(image, (x, y - fs.weighted(20)))
 
     objects.sort()  # 보표 번호 → x 좌표 순으로 오름차순 정렬
-    #for i, v in enumerate(objects):
+    # for i, v in enumerate(objects):
     #    print(i,'번: ', v)
 
     for line in range(lines):
