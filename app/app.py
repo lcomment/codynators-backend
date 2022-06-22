@@ -1,5 +1,6 @@
 from flask import Flask, request, url_for
 from DB_handler import DBModule
+import algorithm
 
 app = Flask(__name__)
 DB = DBModule()
@@ -25,11 +26,17 @@ def post():
     params = request.get_json()
     print(params['username'])
     path_on_cloud = f"{params['username']}/{params['filename']}"
+    image = storage.child(path_on_cloud+".png").download(f"./source/{params['filename']}"+".png")
+
+    if params['filename'] == '여행을떠나요':
+        path_local = f"{params['filename']}" + ".csv"  # 샘플
+    else:
+        algorithm.musicsheet_algorithm(params['filename'])
+        path_local = f"{params['filename']}" + ".csv"  # 샘플
     #path_local = f"{params['filename']}" + ".csv"  # 샘플
-    path_local = f"{params['filename']}" + ".csv"  # 샘플
     storage.child(path_on_cloud).put(path_local)
     return url_for('index')
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=3333, debug=True)
