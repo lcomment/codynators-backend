@@ -7,9 +7,6 @@
 # import numpy as np
 # import functions as fs
 # import os
-# import pyxl_modules as pm
-# from openpyxl import Workbook
-#
 # file_name = "canthave.png"
 # #
 # # pages = convert_from_path("./musicsheet/" + file_name)
@@ -56,8 +53,9 @@
 # cv2.imwrite("./source/" + "검출" + ".png", findObject)
 # print("exit")
 import cv2
-import sys
 import numpy as np
+import pyxl_modules as pm
+from openpyxl import Workbook
 from imutils.object_detection import non_max_suppression
 from collections import defaultdict
 
@@ -363,6 +361,39 @@ staff, image = head_matching(image, 0.8)
 staff, image = hihat_matching(image, 0.8)
 
 staff, image = crash_matching(image, 0.9)
-cv2.imshow('img', image)
-cv2.waitKey(0)
+
+workbook = Workbook() # 액셀파일로 사용하기 위한 변수
+
+sheet = workbook.active
+sheet['A1'] = "Hihat"
+sheet['B1'] = "Snare"
+sheet['C1'] = "Crash"
+sheet['D1'] = "HighTom"
+sheet['E1'] = "MidTom"
+sheet['F1'] = "LowTom"
+sheet['G1'] = "Ride"
+sheet['H1'] = "Base"
+
+
+def save_xlsx_value(x, y):
+    values = []
+    for i in range(1, 9):
+        if i == int(x) or i == int(y):
+            values.append(1)
+        else:
+            values.append(0)
+    return values
+
+
+for stf in staff:
+    for tup in staff[stf]:
+        loc = tup[4:]
+        if len(loc) == 2:
+            x, y = loc[0], loc[1]
+        else:
+            x, y = loc[0], 20
+        values = save_xlsx_value(x, y)
+        sheet.append(values)
+
+workbook.save('cant have.xlsx')
 # [[1번], [2번] ... ]
