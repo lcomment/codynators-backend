@@ -19,7 +19,6 @@ def recognition(image, staves, objects):
         direction = obj[5]
         (x, y, w, h, area) = stats
         staff = staves[line * 5: (line + 1) * 5]
-        rs.recognize_note(image, staff, stats, stems, direction)
         if not time_signature:  # 조표가 완전히 탐색되지 않음 (아직 박자표를 찾지 못함)
             ts, temp_key = rs.recognize_key(image, staff, stats)
             time_signature = ts
