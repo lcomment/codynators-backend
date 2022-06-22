@@ -2,6 +2,8 @@ FROM python:3.8
 RUN mkdir myapp/
 RUN mkdir myapp/config
 RUN mkdir myapp/source
+RUN apt-get update
+RUN apt-get -y install libgl1-mesa-glx
 COPY app.py myapp/app.py
 COPY algorithm.py myapp/algorithm.py
 COPY pyxl_modules.py myapp/pyxl_modules.py
