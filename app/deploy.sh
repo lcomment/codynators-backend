@@ -3,6 +3,7 @@
 REPOSITORY=/home/ec2-user/app/step2/flask/app
 
 cd $REPOSITORY
+sudo apt-get install libgl1-mesa-glx
 
 docker stop codynators-backend
 docker rm codynators-backend
