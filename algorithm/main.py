@@ -56,6 +56,8 @@ import cv2
 import numpy as np
 import pyxl_modules as pm
 from openpyxl import Workbook
+from butter_function import head_matching as hm
+from butter_function import hihat_matching as him
 from imutils.object_detection import non_max_suppression
 from collections import defaultdict
 
@@ -173,9 +175,6 @@ def head_matching(img, thr):
             staff[7].append(tuple(loc))
         else:
             staff[8].append(tuple(loc))
-
-    # cv2.imshow('img', img)
-    # cv2.waitKey(0)
     return staff, img
 
 
@@ -352,16 +351,12 @@ def crash_matching(img, thr):
     return staff, img
 
 
-img = "./source/canthaveyou.png"
+img = "./source/butter.png"
 image = cv2.imread(img)
-# 헤드 탐색
-staff, image = head_matching(image, 0.8)
+staff, image = hm(image, 0.8)
 
-# 하이햇 탐색
-staff, image = hihat_matching(image, 0.8)
-
-staff, image = crash_matching(image, 0.9)
-
+staff, image = him(image, 0.72, staff)
+print(staff)
 workbook = Workbook() # 액셀파일로 사용하기 위한 변수
 
 sheet = workbook.active
@@ -375,10 +370,10 @@ sheet['G1'] = "Ride"
 sheet['H1'] = "Base"
 
 
-def save_xlsx_value(x, y):
+def save_xlsx_value(x, y, z):
     values = []
     for i in range(1, 9):
-        if i == int(x) or i == int(y):
+        if i == int(x) or i == int(y) or i == int(z):
             values.append(1)
         else:
             values.append(0)
@@ -388,12 +383,57 @@ def save_xlsx_value(x, y):
 for stf in staff:
     for tup in staff[stf]:
         loc = tup[4:]
-        if len(loc) == 2:
-            x, y = loc[0], loc[1]
+        if len(loc) == 3:
+            x, y, z = loc[0], loc[1], loc[2]
+        elif len(loc) == 2:
+            x, y, z = loc[0], loc[1], 20
         else:
-            x, y = loc[0], 20
-        values = save_xlsx_value(x, y)
+            x, y, z = loc[0], 20, 20
+        values = save_xlsx_value(x, y, z)
         sheet.append(values)
 
-workbook.save('cant have.xlsx')
+workbook.save('butter.xlsx')
+# image = cv2.imread(img)
+# # 헤드 탐색
+# staff, image = head_matching(image, 0.8)
+#
+# # 하이햇 탐색
+# staff, image = hihat_matching(image, 0.8)
+#
+# staff, image = crash_matching(image, 0.9)
+#
+# workbook = Workbook() # 액셀파일로 사용하기 위한 변수
+#
+# sheet = workbook.active
+# sheet['A1'] = "Hihat"
+# sheet['B1'] = "Snare"
+# sheet['C1'] = "Crash"
+# sheet['D1'] = "HighTom"
+# sheet['E1'] = "MidTom"
+# sheet['F1'] = "LowTom"
+# sheet['G1'] = "Ride"
+# sheet['H1'] = "Base"
+#
+#
+# def save_xlsx_value(x, y):
+#     values = []
+#     for i in range(1, 9):
+#         if i == int(x) or i == int(y):
+#             values.append(1)
+#         else:
+#             values.append(0)
+#     return values
+#
+#
+# for stf in staff:
+#     for tup in staff[stf]:
+#         loc = tup[4:]
+#         if len(loc) == 2:
+#             x, y = loc[0], loc[1]
+#         else:
+#             x, y = loc[0], 20
+#         values = save_xlsx_value(x, y)
+#         sheet.append(values)
+#
+# workbook.save('cant have.xlsx')
 # [[1번], [2번] ... ]
