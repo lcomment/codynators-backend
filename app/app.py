@@ -1,6 +1,7 @@
 from flask import Flask, request, url_for
 from DB_handler import DBModule
 import algorithm_1
+import algorithm_2
 
 app = Flask(__name__)
 DB = DBModule()
@@ -36,7 +37,7 @@ def post():
         algorithm_1.musicsheet_algorithm(params['filename'])
         path_local = f"{params['filename']}" + ".csv"  # 샘플
     elif params['filename'] == 'butter':
-        algorithm_1.musicsheet_algorithm(params['filename'])
+        algorithm_2.butter_algorithm(params['filename'])
         path_local = f"{params['filename']}" + ".csv"  # 샘플
     #path_local = f"{params['filename']}" + ".csv"  # 샘플
     storage.child(path_on_cloud).put(path_local)
@@ -44,4 +45,4 @@ def post():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3333, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
