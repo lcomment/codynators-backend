@@ -5,7 +5,8 @@ RUN mkdir myapp/source
 RUN apt-get update
 RUN apt-get -y install libgl1-mesa-glx
 COPY app.py myapp/app.py
-COPY algorithm.py myapp/algorithm.py
+COPY algorithm.py myapp/algorithm_1.py
+COPY algorithm.py myapp/algorithm_2.py
 COPY pyxl_modules.py myapp/pyxl_modules.py
 COPY DB_handler.py myapp/DB_handler.py
 COPY config/firebaseAuth.json myapp/config/firebaseAuth.json
