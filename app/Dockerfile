@@ -7,6 +7,7 @@ RUN apt-get -y install libgl1-mesa-glx
 COPY app.py myapp/app.py
 COPY algorithm_1.py myapp/algorithm_1.py
 COPY algorithm_2.py myapp/algorithm_2.py
+COPY butter_function.py myapp/butter_function.py
 COPY pyxl_modules.py myapp/pyxl_modules.py
 COPY DB_handler.py myapp/DB_handler.py
 COPY config/firebaseAuth.json myapp/config/firebaseAuth.json
