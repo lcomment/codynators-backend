@@ -48,7 +48,7 @@ jobs:
 
       # 소스 파일 압축
       - name: zip artifacts
-        run: zip -r ./artifacts/build.zip ./app/* appspec.yml
+        run: zip -r ./artifacts/build.zip ./app/*
 
       - name: configure aws
         uses: aws-actions/configure-aws-credentials@v1
