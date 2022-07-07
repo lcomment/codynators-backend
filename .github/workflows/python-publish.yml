@@ -59,7 +59,10 @@ jobs:
       
       # S3에 업로드
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./artifacts/build.zip s3://codynators-backend/backend/build.zip
+        run: aws s3 cp 
+          --region ap-northeast-2 
+          ./artifacts/build.zip 
+          s3://codynators-backend/backend/build.zip
           
       - name: code deploy
         run: aws deploy create-deployment 
