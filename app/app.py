@@ -22,8 +22,9 @@ def index():
 @app.route("/", methods=['POST'])
 def post():
     params = request.get_json()
-    print(params['username'])
-    path_on_cloud = f"{params['username']}/{params['filename']}"
+    #print(params['username'])
+    #path_on_cloud = f"{params['username']}/{params['filename']}"
+    path_on_cloud = f"{params['filename']}"
 
     if params['filename'] != '여행을떠나요':
         image = storage.child(path_on_cloud+".png").download(f"./source/{params['filename']}"+".png")
